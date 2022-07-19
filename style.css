@@ -109,12 +109,6 @@ section {
 }
 body {
   line-height: 1;
-  background: linear-gradient(
-    to right,
-    rgb(247, 148, 49),
-    white,
-    rgb(17, 132, 7)
-  );
 }
 ol,
 ul {
@@ -142,7 +136,7 @@ table {
   margin: 0 auto;
   padding: 1rem;
   margin-top: 1rem;
-  box-shadow: 0px 2px 2px 1px rgba(128, 128, 128, 0.117);
+  box-shadow: 0px 2px 4px 1px black;
 }
 h1 {
   text-align: center;
@@ -189,6 +183,5 @@ label {
     border-radius: 15px;
     margin-top: 2rem;
     box-shadow: 0px 3px 1px 2px rgba(128, 128, 128, 0.183);
-    /* background-color: white; */
   }
 }

@@ -1,59 +1,76 @@
-let input = document.querySelector('input')
-let root = document.querySelector('ul')
+function todo() {
+  let input = document.querySelector('input')
+  let root = document.querySelector('ul')
+  let alldata = []
+  // let alldata = JSON.parse(localStorage.getItem('todo') || [])
+  let value
 
-let alldata = JSON.parse(localStorage.getItem('todo') || [])
-let value
+  // addTodo
+  function handleInput(e) {
+    value = e.target.value
+    if (e.keyCode === 13 && value !== '') {
+      alldata.push({
+        name: value,
+        isDone: false,
+      })
+      // localStorage.setItem('todo', JSON.stringify(alldata))
+      createUi()
+    }
+  }
 
-// addTodo
-function handleInput(e) {
-  value = e.target.value
-  if (e.keyCode === 13 && value !== '') {
-    alldata.push({
-      name: value,
-      isDone: false,
-    })
-    localStorage.setItem('todo', JSON.stringify(alldata))
+  function handleToogle(e) {
+    let id = e.target.dataset.id
+    alldata[id].isDone = !alldata[id].isDone
+    if (alldata[id].isDone == true) {
+      e.target.nextSibling.classList.add('outline')
+    }
+    if (alldata[id].isDone !== true) {
+      e.target.nextSibling.classList.remove('outline')
+    }
+  }
+  // handle delete
+  function handleDelete(e) {
+    let smallid = e.target.dataset.id
+
+    alldata.splice(smallid, 1)
+    // localStorage.setItem('todo', JSON.stringify(alldata))
     createUi()
   }
-}
 
-function handleToogle(e) {
-  let id = e.target.dataset.id
-  alldata[id].isDone = !alldata[id].isDone
-  if ((alldata[id].isDone = true)) {
-    e.target.nextSibling.classList.add('outline')
+  // createUi
+  function createUi() {
+    root.innerHTML = ''
+    alldata.forEach((elm, index) => {
+      let li = document.createElement('li')
+      let checkInput = document.createElement('input')
+      checkInput.classList.add('checkbox')
+      checkInput.setAttribute('type', 'checkbox')
+      checkInput.setAttribute('data-id', index)
+      checkInput.addEventListener('input', handleToogle)
+      let label = document.createElement('label')
+      label.innerText = elm.name
+      input.value = ''
+      label.setAttribute('data-id', index)
+      let small = document.createElement('small')
+      small.innerText = '❌'
+      small.setAttribute('data-id', index)
+      li.append(checkInput, label, small)
+      root.append(li)
+      small.addEventListener('click', handleDelete)
+    })
   }
-}
-// handle delete
-function handleDelete(e) {
-  let smallid = e.target.dataset.id
-
-  alldata.splice(smallid, 1)
-  localStorage.setItem('todo', JSON.stringify(alldata))
   createUi()
-}
+  input.addEventListener('keyup', handleInput)
 
-// createUi
-function createUi() {
-  root.innerHTML = ''
-  alldata.forEach((elm, index) => {
-    let li = document.createElement('li')
-    let checkInput = document.createElement('input')
-    checkInput.classList.add('checkbox')
-    checkInput.setAttribute('type', 'checkbox')
-    checkInput.setAttribute('data-id', index)
-    checkInput.addEventListener('input', handleToogle)
-    let label = document.createElement('label')
-    label.innerText = elm.name
-    input.value = ''
-    label.setAttribute('data-id', index)
-    let small = document.createElement('small')
-    small.innerText = '❌'
-    small.setAttribute('data-id', index)
-    li.append(checkInput, label, small)
-    root.append(li)
-    small.addEventListener('click', handleDelete)
-  })
+  function reandomColor() {
+    let red = Math.floor(Math.random() * 255)
+    let green = Math.floor(Math.random() * 255)
+    let blue = Math.floor(Math.random() * 255)
+    let color = `rgb(${red},${green},${blue})`
+    console.log(color)
+    let body = document.querySelector('body')
+    body.style.background = color
+  }
+  setInterval(reandomColor, 3000)
 }
-createUi()
-input.addEventListener('keyup', handleInput)
+todo()
